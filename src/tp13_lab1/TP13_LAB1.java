@@ -45,6 +45,21 @@ public class TP13_LAB1 {
             ps = conexion.prepareStatement(sql);
             resultado = ps.executeQuery();
             JOptionPane.showMessageDialog(null, resultado + " filas afectadas");
+            
+            //          LISTAR ALUMNOS CON NOTAS MAYOR A 8
+            sql="SELECT DISTINCT alumno.nombre, alumno.apellido,  materia.nombre as materia,inscripcion.nota\n "
+                    + "FROM inscripcion\n"
+                    + "JOIN alumno ON inscripcion.idAlumno = alumno.idAlumno\n"
+                    + "JOIN materia ON inscripcion.idMateria = materia.idMateria\n"
+                    + "WHERE inscripcion.nota > 8";
+            ps= conexion.prepareStatement(sql);
+            resultado=ps.executeQuery();
+            while(resultado.next()){
+                System.out.println("Nombre: "+ resultado.getString("nombre"));
+                System.out.println("Apellido: "+ resultado.getString("apellido"));
+                System.out.println("Materia: "+ resultado.getString("materia"));
+                System.out.println("Nota: "+ resultado.getInt("nota"));
+            }
  
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(TP13_LAB1.class.getName()).log(Level.SEVERE, null, ex);
