@@ -59,8 +59,8 @@ public class TP13_LAB1 {
             //          LISTAR ALUMNOS CON NOTAS MAYOR A 8
             sql="SELECT DISTINCT alumno.nombre, alumno.apellido,  materia.nombre as materia,inscripcion.nota\n "
                     + "FROM inscripcion\n"
-                    + "JOIN alumno ON inscripcion.idAlumno = alumno.idAlumno\n"
-                    + "JOIN materia ON inscripcion.idMateria = materia.idMateria\n"
+                    + "JOIN alumno ON inscripcion.id_Alumno = alumno.id_Alumno\n"
+                    + "JOIN materia ON inscripcion.id_Materia = materia.id_Materia\n"
                     + "WHERE inscripcion.nota > 8";
             ps= conexion.prepareStatement(sql);
             ResultSet resultado=ps.executeQuery();
