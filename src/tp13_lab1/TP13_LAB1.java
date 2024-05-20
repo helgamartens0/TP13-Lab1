@@ -8,6 +8,7 @@ package tp13_lab1;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.*;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,13 +27,24 @@ public class TP13_LAB1 {
             Connection conexion = DriverManager.getConnection("jdbc:mariadb://localhost:3306/tp_13", "root", "");
             Statement st = conexion.createStatement();
             //insertar 3 alumnos
-//            String sql = "INSERT INTO  alumno (`dni`, `apellido`, `nombre`, `fechaNacimiento`, `estado`) VALUES "
-//                    + "(12345678, 'Gomez', 'Juan', '2000-01-15', 1), "
-//                    + "(87654321, 'Perez', 'Maria', '1999-05-20', 1), "
-//                    + "(45678901, 'Lopez', 'Carlos', '2001-09-30', 1);";
+            String sql = "INSERT INTO  alumno (`dni`, `apellido`, `nombre`, `fechaNacimiento`, `estado`) VALUES "
+                    + "(12345678, 'Gomez', 'Juan', '2000-01-15', 1), "
+                    + "(87654321, 'Perez', 'Maria', '1999-05-20', 1), "
+                    + "(45678901, 'Lopez', 'Carlos', '2001-09-30', 1);";
 
             PreparedStatement ps = conexion.prepareStatement(sql);
             ResultSet resultado = ps.executeQuery();
+            JOptionPane.showMessageDialog(null, resultado + " filas afectadas");
+            
+            //inscribir a los 3 alumnos en 2 materias cada uno
+            sql = "INSERT INTO `inscripcion`(`id_inscripto`, `nota`, `id_alumno`, `id_materia`) VALUES "
+                    + "(1,8,1,1), (2,5,1,2), "
+                    +"(3,6,2,3), (4,8,2,4), "
+                    +"(5,9,3,1),(6,4,3,3) ";
+            
+            ps = conexion.prepareStatement(sql);
+            resultado = ps.executeQuery();
+            JOptionPane.showMessageDialog(null, resultado + " filas afectadas");
  
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(TP13_LAB1.class.getName()).log(Level.SEVERE, null, ex);
