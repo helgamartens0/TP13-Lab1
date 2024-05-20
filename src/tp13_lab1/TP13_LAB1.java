@@ -5,8 +5,7 @@
  */
 package tp13_lab1;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import java.sql.*;
 import javax.swing.JOptionPane;
 
@@ -25,7 +24,7 @@ public class TP13_LAB1 {
             Class.forName("org.mariadb.jdbc.Driver");
             //establecemos conexion
             Connection conexion = DriverManager.getConnection("jdbc:mariadb://localhost:3306/tp_13", "root", "");
-            Statement st = conexion.createStatement();
+            //Statement st = conexion.createStatement();
             //insertar 3 alumnos
             String sql = "INSERT INTO  alumno (`dni`, `apellido`, `nombre`, `fechaNacimiento`, `estado`) VALUES "
                     + "(12345678, 'Gomez', 'Juan', '2000-01-15', 1), "
@@ -33,8 +32,19 @@ public class TP13_LAB1 {
                     + "(45678901, 'Lopez', 'Carlos', '2001-09-30', 1);";
 
             PreparedStatement ps = conexion.prepareStatement(sql);
-            ResultSet resultado = ps.executeQuery();
-            JOptionPane.showMessageDialog(null, resultado + " filas afectadas");
+            int res = ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, res + " filas afectadas.");
+            
+            //insertar 4 materias
+            sql = "INSERT INTO `materia`(`nombre`, `anio`, `estado`) VALUES "
+                    + "('Matemáticas', 1, true), "
+                    + "('Historia', 2, true), "
+                    + "('Física', 3, true), "
+                    + "('Literatura', 4, true);";
+            
+            ps = conexion.prepareStatement(sql);
+            res = ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, res + " filas afectadas.");
             
             //inscribir a los 3 alumnos en 2 materias cada uno
             sql = "INSERT INTO `inscripcion`(`id_inscripto`, `nota`, `id_alumno`, `id_materia`) VALUES "
@@ -43,8 +53,8 @@ public class TP13_LAB1 {
                     +"(5,9,3,1),(6,4,3,3) ";
             
             ps = conexion.prepareStatement(sql);
-            resultado = ps.executeQuery();
-            JOptionPane.showMessageDialog(null, resultado + " filas afectadas");
+             res = ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, res + " filas afectadas");
             
             //          LISTAR ALUMNOS CON NOTAS MAYOR A 8
             sql="SELECT DISTINCT alumno.nombre, alumno.apellido,  materia.nombre as materia,inscripcion.nota\n "
@@ -53,7 +63,7 @@ public class TP13_LAB1 {
                     + "JOIN materia ON inscripcion.idMateria = materia.idMateria\n"
                     + "WHERE inscripcion.nota > 8";
             ps= conexion.prepareStatement(sql);
-            resultado=ps.executeQuery();
+            ResultSet resultado=ps.executeQuery();
             while(resultado.next()){
                 System.out.println("Nombre: "+ resultado.getString("nombre"));
                 System.out.println("Apellido: "+ resultado.getString("apellido"));
@@ -62,9 +72,9 @@ public class TP13_LAB1 {
             }
  
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(TP13_LAB1.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error al cargar el driver. " + ex);
         } catch (SQLException ex) {
-            System.out.println("No se pudo conectar");
+            System.out.println("No se pudo conectar. " + ex);
         }
     }
 
